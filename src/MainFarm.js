@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Button,
   StyleSheet,
   Text,
   View,
@@ -11,10 +10,10 @@ import Modal from "react-native-modal";
 import AwesomeButton from 'react-native-really-awesome-button';
 import Card from "./Card";
 
-//TODO BUG, autoamtic fish not added while clicking the main fish
-
 export default function MainFarm() {
 
+
+  //Main Counter
   const [counter, setCounter] = useState(0);
   const [clicks, setClicks] = useState(1);
   const [fishPerSec, setFishPerSec] = useState(0);
@@ -107,7 +106,6 @@ export default function MainFarm() {
       </View>
 
       <Modal isVisible={isModalVisible} swipeDirection={['down']} style={styles.modalContainer}>
-
         <View
             style={styles.UpgradeLabel}>
                 <Text style={{color: 'white', fontSize:20, fontWeight:'bold'}}>
@@ -115,16 +113,12 @@ export default function MainFarm() {
                 </Text>
         </View>
 
-        <Card name={'Auto Feeders'} count={feedertCount} price={feederPrice} counter={counter} perSec={fishPerSec} setCount={setFeederCount} const={feederConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFeederPrice} />
-        
-        <Card name={'Fisher Man'}count={FisherManCount} price={FisherManPrice} counter={counter} perSec={fishPerSec} setCount={setFisherManCount} const={FisherManConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFisherManPrice} />
-        
+        <Card name={'Auto Feeders'} count={feedertCount} price={feederPrice} counter={counter} perSec={fishPerSec} setCount={setFeederCount} const={feederConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFeederPrice} setConst={setFeederConst}/>
+        <Card name={'Fisher Man'}count={FisherManCount} price={FisherManPrice} counter={counter} perSec={fishPerSec} setCount={setFisherManCount} const={FisherManConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFisherManPrice} />   
         <Card name={"Fish Farm"}count={FishFarmCount} price={FishFarmPrice} counter={counter} perSec={fishPerSec} setCount={setFishFarmCount} const={FishFarmConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFishFarmPrice} />
-
         <Card name={"Incubators"}count={IncubatorCount} price={IncubatorPrice} counter={counter} perSec={fishPerSec} setCount={setIncubatorCount} const={IncubatorConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setIncubatorPrice} />
-
         <Card name={"Fish Factory"}count={FishFactoryCount} price={FishFactoryPrice} counter={counter} perSec={fishPerSec} setCount={setFishFactoryCount} const={FishFactoryConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFishFactoryPrice} />
-
+        
         <View
             style={styles.QuitButton}>
             <TouchableOpacity
@@ -139,7 +133,6 @@ export default function MainFarm() {
                 </Text>
               </TouchableOpacity>
         </View>
-
       </Modal>
     </View>
   );
@@ -162,7 +155,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-
     modalContainer: {
         flex:0.9,
         padding: 20,
@@ -177,29 +169,6 @@ const styles = StyleSheet.create({
         backgroundColor:'red',
         borderRadius:15,
     }, 
-    BuyButton:{
-        position:'absolute',
-        height:"100%",
-        width:"40%",
-        justifyContent: 'center',
-        alignItems:'center',
-        alignSelf:'flex-end',
-        zIndex:99,
-    },
-    mainCardView: {
-        margin:5,
-        padding:20,
-        flex:0.2,
-        justifyContent: 'center',
-        alignItems:'flex-start',
-        backgroundColor: 'white',
-        borderRadius: 15,
-        shadowColor: '#ccd0e7',
-        shadowOffset: {width: 0, height: 0},
-        shadowOpacity: 1,
-        shadowRadius: 8,
-        elevation: 3,
-    },
     QuitButton:{
         position:'absolute',
         backgroundColor: 'pink',

@@ -10,6 +10,8 @@ import {
 
 export default function Card(props){
 
+  const [margin, setMargin] = useState(10);
+
   function BuyUpgrade() {
     if (props.counter >= props.price) {
       props.setCount(props.count + 1);
@@ -18,7 +20,7 @@ export default function Card(props){
       props.setPrice(props.price + props.price * 0.1);
     }
   }
-
+  
     return(
       <View style={styles.mainCardView}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -65,37 +67,6 @@ export default function Card(props){
 }
 
 const styles = StyleSheet.create({
-  pink: {
-      color: "#ccd0e7",
-      fontSize: 20,
-      fontWeight:"bold"
-  },
-  white: {
-      color: "black",
-      fontWeight:'bold',
-      fontSize: 15,
-  },
-  container: {
-      flex: 1,
-      backgroundColor: "pink",
-      alignItems: "center",
-      justifyContent: "center",
-  },
-
-  modalContainer: {
-      flex:0.9,
-      padding: 20,
-      margin:30,
-      marginTop:90,
-      borderRadius: 15,
-      backgroundColor:'white',
-  },
-  Card:{
-      height:"100%",
-      width:"100%",
-      backgroundColor:'red',
-      borderRadius:15,
-  }, 
   BuyButton:{
       position:'absolute',
       height:"100%",
@@ -119,38 +90,5 @@ const styles = StyleSheet.create({
       shadowRadius: 8,
       elevation: 3,
   },
-  QuitButton:{
-      position:'absolute',
-      backgroundColor: 'pink',
-      height:"10%",
-      width:"50%",
-      borderRadius: 15,
-      
-      justifyContent: 'center',
-      alignItems:'center',
-      alignSelf:'center',
-      zIndex:99,
-      bottom: -35,
-  },
-  UpgradeLabel:{
-      position:'absolute',
-      backgroundColor: 'pink',
-      height:"10%",
-      width:"100%",
-      borderRadius: 15,
-      
-      justifyContent: 'center',
-      alignItems:'center',
-      alignSelf:'center',
-      zIndex:99,
-      top:-35,
-  },
-  Upgrades:{
-      margin:20,
-      position:'absolute',
-      alignSelf:'center',
-      zIndex:99,
-      bottom:0,
-  }
 });
 
