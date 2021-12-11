@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -11,7 +10,14 @@ import {
 
 export default function Card(props){
 
-    
+  function BuyUpgrade() {
+    if (props.counter >= props.price) {
+      props.setCount(props.count + 1);
+      props.setPerSec(props.const + props.perSec);
+      props.setTotal(props.counter - props.perSec);
+      props.setPrice(props.price + props.price * 0.1);
+    }
+  }
 
     return(
       <View style={styles.mainCardView}>
@@ -44,7 +50,7 @@ export default function Card(props){
                 style={{ color: "green" }}
                 disabled={false}
                 onPress={() => {
-                  props.buy()
+                  BuyUpgrade()
                 }}
               >
                 <Text style={{color: 'pink', fontSize:30, fontWeight:'bold'}}>

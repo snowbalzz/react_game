@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -14,14 +13,10 @@ import Card from "./Card";
 
 //TODO BUG, autoamtic fish not added while clicking the main fish
 
-export default function TestFarm() {
-
-  
-  const [pressed, setPressed] = useState(false);
-
+export default function MainFarm() {
 
   const [counter, setCounter] = useState(0);
-  const [clicks, setClicks] = useState(1000);
+  const [clicks, setClicks] = useState(1);
   const [fishPerSec, setFishPerSec] = useState(0);
 
 
@@ -42,80 +37,25 @@ export default function TestFarm() {
   const [feederConst, setFeederConst] = useState(0.1);
   const [feedertCount, setFeederCount] = useState(0);
 
-  function Feeder() {
-    if (counter >= feederPrice) {
-      setFeederCount(feedertCount + 1);
-      setFishPerSec(feederConst + fishPerSec);
-      setCounter(counter - feederPrice);
-      setFeederPrice(feederPrice + feederPrice * 0.1);
-    }
-  }
-
-  const [rotate, setRotate] =useState(false);
-
-  function rotation(){
-    (rotate)
-    ? 
-    setRotate(false) 
-    : 
-    setRotate(true);
-  }
-
   //Automatic FisherMan
   const [FisherManPrice, setFisherManPrice] = useState(100);
   const [FisherManConst, setFisherManConst] = useState(1);
   const [FisherManCount, setFisherManCount] = useState(0);
-
-  function FisherMan() {
-    if (counter >= FisherManPrice) {
-      setFisherManCount(FisherManCount + 1);
-      setFishPerSec(FisherManConst + fishPerSec);
-      setCounter(counter - FisherManPrice);
-      setFisherManPrice(FisherManPrice + FisherManPrice * 0.12);
-    }
-  }
 
   //Auto FishFarm
   const [FishFarmPrice, setFishFarmPrice] = useState(1000);
   const [FishFarmConst, setFishFarmConst] = useState(10);
   const [FishFarmCount, setFishFarmCount] = useState(0);
 
-  function FishFarm() {
-    if (counter >= FishFarmPrice) {
-      setFishFarmCount(FishFarmCount + 1);
-      setFishPerSec(FishFarmConst + fishPerSec);
-      setCounter(counter - FishFarmPrice);
-      setFishFarmPrice(FishFarmPrice + FishFarmPrice * 0.12);
-    }
-  }
-
   //Auto Fish Incuabtor
   const [IncubatorPrice, setIncubatorPrice] = useState(12000);
   const [IncubatorConst, setIncubatorConst] = useState(56);
   const [IncubatorCount, setIncubatorCount] = useState(0);
 
-  function Incubator() {
-    if (counter >= IncubatorPrice) {
-      setIncubatorCount(IncubatorCount + 1);
-      setFishPerSec(IncubatorConst + fishPerSec);
-      setCounter(counter - IncubatorPrice);
-      setIncubatorPrice(IncubatorPrice + IncubatorPrice * 0.12);
-    }
-  }
-
   //Fish Facory
   const [FishFactoryPrice, setFishFactoryPrice] = useState(160000);
   const [FishFactoryConst, setFishFactoryConst] = useState(226);
   const [FishFactoryCount, setFishFactoryCount] = useState(0);
-
-  function FishFactory() {
-    if (counter >= FishFactoryPrice) {
-      setFishFactoryCount(FishFactoryCount + 1);
-      setFishPerSec(FishFactoryConst + fishPerSec);
-      setCounter(counter - FishFactoryPrice);
-      setFishFactoryPrice(FishFactoryPrice + FishFactoryPrice * 0.12);
-    }
-  }
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -175,15 +115,15 @@ export default function TestFarm() {
                 </Text>
         </View>
 
-        <Card name={'Auto Feeders'} count={feedertCount} price={feederPrice} buy={Feeder}/>
+        <Card name={'Auto Feeders'} count={feedertCount} price={feederPrice} counter={counter} perSec={fishPerSec} setCount={setFeederCount} const={feederConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFeederPrice} />
         
-        <Card name={'Fisher Man'}count={FisherManCount} price={FisherManPrice} buy={FisherMan}/>
+        <Card name={'Fisher Man'}count={FisherManCount} price={FisherManPrice} counter={counter} perSec={fishPerSec} setCount={setFisherManCount} const={FisherManConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFisherManPrice} />
         
-        <Card name={"Fish Farm"}count={FishFarmCount} price={FishFarmPrice} buy={FishFarm}/>
+        <Card name={"Fish Farm"}count={FishFarmCount} price={FishFarmPrice} counter={counter} perSec={fishPerSec} setCount={setFishFarmCount} const={FishFarmConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFishFarmPrice} />
 
-        <Card name={"Incubators"}count={IncubatorCount} price={IncubatorPrice} buy={Incubator}/>
+        <Card name={"Incubators"}count={IncubatorCount} price={IncubatorPrice} counter={counter} perSec={fishPerSec} setCount={setIncubatorCount} const={IncubatorConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setIncubatorPrice} />
 
-        <Card name={"Fish Factory"}count={FishFactoryCount} price={FishFactoryPrice} buy={FishFactory}/>
+        <Card name={"Fish Factory"}count={FishFactoryCount} price={FishFactoryPrice} counter={counter} perSec={fishPerSec} setCount={setFishFactoryCount} const={FishFactoryConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFishFactoryPrice} />
 
         <View
             style={styles.QuitButton}>
