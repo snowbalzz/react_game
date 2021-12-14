@@ -1,29 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import Modal from "react-native-modal";
-import AwesomeButton from 'react-native-really-awesome-button';
+import AwesomeButton from "react-native-really-awesome-button";
 import Card from "./Card";
+import { useAtom } from "jotai";
+import { counterAtom, fishPerSecAtom, sets } from "./props";
 
 export default function MainFarm() {
-
-
   //Main Counter
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useAtom(counterAtom);
   const [clicks, setClicks] = useState(1);
-  const [fishPerSec, setFishPerSec] = useState(0);
-
+  const [fishPerSec, setFishPerSec] = useAtom(fishPerSecAtom);
 
   useEffect(() => {
     const countTimer = setInterval(() => {
-      //BUG HERE
-      setCounter(old => old + fishPerSec / 20)
-
+      setCounter((old) => old + fishPerSec / 20);
+      checks();
     }, 50);
     //Unmount
     return function cleanup() {
@@ -31,10 +23,10 @@ export default function MainFarm() {
     };
   }, [fishPerSec]);
 
-  //Automatic Feeders
-  const [feederPrice, setFeederPrice] = useState(15);
-  const [feederConst, setFeederConst] = useState(0.1);
-  const [feedertCount, setFeederCount] = useState(0);
+  //Feeders
+  const [FeederPrice, setFeederPrice] = useState(15);
+  const [FeederConst, setFeederConst] = useState(0.1);
+  const [FeederCount, setFeederCount] = useState(0);
 
   //Automatic FisherMan
   const [FisherManPrice, setFisherManPrice] = useState(100);
@@ -58,80 +50,283 @@ export default function MainFarm() {
 
   const [isModalVisible, setModalVisible] = useState(false);
 
+  const [state, setState] = useAtom(sets);
+  const [current, setCurrent] = useState(state.default);
+  
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-  
+
+  let upgrades = [
+    {
+      image: state.feeder,
+      count: FeederCount,
+      passed: false,
+      unlocked: false,
+      required: 10,
+    }, 
+    {
+      image: state.fisherman,
+      count: FisherManCount,
+      passed: false,
+      unlocked: false,
+      required: 300,
+    }, 
+    {
+      image: state.fishfarm,
+      count: FishFarmCount,
+      passed: false,
+      unlocked: false,
+      required: 1000,
+    }, 
+    {
+      image: state.incubator,
+      count: IncubatorCount,
+      passed: false,
+      unlocked: false,
+      required: 1200,
+    }, 
+    {
+      image: state.factory,
+      count: FishFactoryCount,
+      passed: false,
+      unlocked: false,
+      required: 10000,
+    }, 
+  ];
+
+  const checks = () => {
+    upgrades.forEach(element => {
+        imageChange(element);
+        if(element.required < counter && !element.unlocked) {
+          console.log('Unlocked!');
+        }
+    });
+  };
+
+  function imageChange(element) {
+    if (!element.passed) {
+      if (element.count > 0) {
+        setCurrent(element.image);
+        element.passed = true;
+      }
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <View style={{position:'absolute', zIndex: 999, top:30,backgroundColor:"white", width:"90%", height:"10%", borderRadius:15, justifyContent: 'center',
-        alignItems:'center',}}>
-      <Text style={styles.pink}>{Math.floor(counter)}  🐠</Text>
+
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 9999,
+          top: 30,
+          backgroundColor: "white",
+          width: "60%",
+          height: "10%",
+          borderRadius: 4,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.pink}>{Math.floor(counter)} 🐠</Text>
       </View>
-      <View style={{position:'absolute', zIndex: 9999, top:80,backgroundColor:"pink", width:"60%", height:"10%", borderRadius:15, borderWidth:2,borderColor:"white", justifyContent: 'center',
-        alignItems:'center',}}>
-      <Text style={styles.white}>
-        {Math.round((fishPerSec + Number.EPSILON) * 100) / 100} f/s
-      </Text>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 999,
+          top: 35,
+          backgroundColor: "#bcc1db",
+          width: "60%",
+          height: "10%",
+          borderRadius: 4,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      ></View>
+
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 99,
+          top: 39,
+          backgroundColor: "gray",
+          width: "59%",
+          height: "10%",
+          borderRadius: 4,
+          justifyContent: "center",
+          alignItems: "center",
+          opacity: 0.3,
+        }}
+      ></View>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 99999,
+          top: 95,
+          width: "60%",
+          height: "10%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.white}>
+          {Math.round((fishPerSec + Number.EPSILON) * 100) / 100} f/s
+        </Text>
       </View>
+      
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 9999,
+          top: 98,
+          width: "60%",
+          height: "10%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            color: "#abaec0",
+            fontWeight: "bold",
+            fontSize: 25,
+            fontFamily: "Futura",
+          }}
+        >
+          {Math.round((fishPerSec + Number.EPSILON) * 100) / 100} f/s
+        </Text>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 999,
+          top: 100,
+          width: "60%",
+          height: "10%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            color: "gray",
+            fontWeight: "bold",
+            fontSize: 25,
+            fontFamily: "Futura",
+            opacity:0.4,
+          }}
+        >
+          {Math.round((fishPerSec + Number.EPSILON) * 100) / 100} f/s
+        </Text>
+      </View>
+
       <TouchableOpacity
         style={{ color: "green" }}
         disabled={false}
         onPress={() => {
-          setCounter(counter +clicks);
+          setCounter((old) => old + clicks);
         }}
       >
-    <Text style={{ fontSize: 300}}>🐠</Text>
+        <Image style={{ height: 250, width: 350 }} source={current} />
       </TouchableOpacity>
-
       <View style={styles.Upgrades}>
-      <AwesomeButton
-        backgroundColor="#ffffff"
-        textColor="#ccd0e7"
-        backgroundDarker="#ccd0e7"
-        backgroundActive="#ffffff"
-       onPress={() => {
-        toggleModal();
-       }}
-       borderWidth={2}
-       borderColor="#ffffff"
-       textSize={30}
-       width={200}
-       height={70}
-       raiseLevel={8}
-     >
-       Upgrades
-     </AwesomeButton>
+        <AwesomeButton
+          backgroundColor="#ffffff"
+          textColor="#abaec0"
+          backgroundDarker="#bcc1db"
+          backgroundActive="#ffffff"
+          onPress={() => {
+            toggleModal();
+          }}
+          borderWidth={2}
+          borderColor="#ffffff"
+          textSize={30}
+          width={300}
+          height={70}
+          raiseLevel={5}
+          fontFamily="Futura"
+        >
+          Upgrades
+        </AwesomeButton>
       </View>
 
-      <Modal isVisible={isModalVisible} swipeDirection={['down']} style={styles.modalContainer}>
-        <View
-            style={styles.UpgradeLabel}>
-                <Text style={{color: 'white', fontSize:20, fontWeight:'bold'}}>
-                Upgrade your Empire
-                </Text>
+      <Modal
+        isVisible={isModalVisible}
+        swipeDirection={["down"]}
+        style={styles.modalContainer}
+      >
+        <View style={styles.UpgradeLabel}>
+          <Text
+            style={{
+              fontFamily: "Futura",
+              color: "white",
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
+          >
+            Upgrade your Empire
+          </Text>
         </View>
 
-        <Card name={'Auto Feeders'} count={feedertCount} price={feederPrice} counter={counter} perSec={fishPerSec} setCount={setFeederCount} const={feederConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFeederPrice} setConst={setFeederConst}/>
-        <Card name={'Fisher Man'}count={FisherManCount} price={FisherManPrice} counter={counter} perSec={fishPerSec} setCount={setFisherManCount} const={FisherManConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFisherManPrice} />   
-        <Card name={"Fish Farm"}count={FishFarmCount} price={FishFarmPrice} counter={counter} perSec={fishPerSec} setCount={setFishFarmCount} const={FishFarmConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFishFarmPrice} />
-        <Card name={"Incubators"}count={IncubatorCount} price={IncubatorPrice} counter={counter} perSec={fishPerSec} setCount={setIncubatorCount} const={IncubatorConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setIncubatorPrice} />
-        <Card name={"Fish Factory"}count={FishFactoryCount} price={FishFactoryPrice} counter={counter} perSec={fishPerSec} setCount={setFishFactoryCount} const={FishFactoryConst} setPerSec={setFishPerSec} setTotal={setCounter} setPrice={setFishFactoryPrice} />
-        
-        <View
-            style={styles.QuitButton}>
-            <TouchableOpacity
-                style={{
+        <Card
+          name={"Auto Feeders"}
+          count={FeederCount}
+          price={FeederPrice}
+          setCount={setFeederCount}
+          const={FeederConst}
+          setPrice={setFeederPrice}
+        />
 
-                }}
-                disabled={false}
-                onPress={toggleModal}
-              >
-                <Text style={{color: 'white', fontSize:25, fontWeight:'bold'}}>
-                Close
-                </Text>
-              </TouchableOpacity>
+        <Card
+          name={"Fisher Man"}
+          count={FisherManCount}
+          price={FisherManPrice}
+          setCount={setFisherManCount}
+          const={FisherManConst}
+          setPrice={setFisherManPrice}
+        />
+
+        <Card
+          name={"Fish Farm"}
+          count={FishFarmCount}
+          price={FishFarmPrice}
+          setCount={setFishFarmCount}
+          const={FishFarmConst}
+          setPrice={setFishFarmPrice}
+        />
+
+        <Card
+          name={"Incubators"}
+          count={IncubatorCount}
+          price={IncubatorPrice}
+          setCount={setIncubatorCount}
+          const={IncubatorConst}
+          setPrice={setIncubatorPrice}
+        />
+
+        <Card
+          name={"Fish Factory"}
+          count={FishFactoryCount}
+          price={FishFactoryPrice}
+          setCount={setFishFactoryCount}
+          const={FishFactoryConst}
+          setPrice={setFishFactoryPrice}
+        />
+
+        <View style={styles.QuitButton}>
+          <TouchableOpacity style={{}} disabled={false} onPress={toggleModal}>
+            <Text
+              style={{
+                fontFamily: "Futura",
+                color: "white",
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              Close
+            </Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>
@@ -139,69 +334,67 @@ export default function MainFarm() {
 }
 
 const styles = StyleSheet.create({
-    pink: {
-        color: "#ccd0e7",
-        fontSize: 20,
-        fontWeight:"bold"
-    },
-    white: {
-        color: "black",
-        fontWeight:'bold',
-        fontSize: 15,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: "pink",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    modalContainer: {
-        flex:0.9,
-        padding: 20,
-        margin:30,
-        marginTop:90,
-        borderRadius: 15,
-        backgroundColor:'white',
-    },
-    Card:{
-        height:"100%",
-        width:"100%",
-        backgroundColor:'red',
-        borderRadius:15,
-    }, 
-    QuitButton:{
-        position:'absolute',
-        backgroundColor: 'pink',
-        height:"10%",
-        width:"50%",
-        borderRadius: 15,
-        
-        justifyContent: 'center',
-        alignItems:'center',
-        alignSelf:'center',
-        zIndex:99,
-        bottom: -35,
-    },
+  pink: {
+    color: "#abaec0",
+    fontSize: 25,
+    fontWeight: "bold",
+    fontFamily: "Futura",
+  },
+  white: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 25,
+    fontFamily: "Futura",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "pink",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalContainer: {
+    flex: 0.9,
+    padding: 20,
+    margin: 30,
+    marginTop: 90,
+    borderRadius: 15,
+    backgroundColor: "white",
+  },
+  QuitButton: {
+    position: "absolute",
+    backgroundColor: "pink",
+    height: "10%",
+    width: "50%",
+    borderRadius: 15,
 
-    UpgradeLabel:{
-        position:'absolute',
-        backgroundColor: 'pink',
-        height:"10%",
-        width:"100%",
-        borderRadius: 15,
-        
-        justifyContent: 'center',
-        alignItems:'center',
-        alignSelf:'center',
-        zIndex:99,
-        top:-35,
-    },
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    zIndex: 99,
+    bottom: -35,
+  },
 
-    Upgrades:{
-        margin:20,
-        position:'absolute',
-        alignSelf:'center',
-        zIndex:99,
-        bottom:0,
-    }
+  UpgradeLabel: {
+    position: "absolute",
+    backgroundColor: "pink",
+    height: "10%",
+    width: "100%",
+    borderRadius: 15,
+
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    zIndex: 99,
+    top: -35,
+  },
+  Upgrades: {
+    position: "absolute",
+    alignSelf: "center",
+    zIndex: 99,
+    bottom: 20,
+  },
+  Clicks: {
+    position: "absolute",
+    zIndex: 999,
+  },
 });

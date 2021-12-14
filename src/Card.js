@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import React, { useState, useEffect } from "react";
 import {
   Button,
@@ -7,16 +8,20 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { counterAtom } from "./props";
+import { fishPerSecAtom } from "./props";
+
 
 export default function Card(props){
 
-  const [margin, setMargin] = useState(10);
+  const [total, setTotal] = useAtom(counterAtom);
+  const [fishPerSec, setFishPerSec] = useAtom(fishPerSecAtom);
 
   function BuyUpgrade() {
-    if (props.counter >= props.price) {
+    if (total>= props.price) {
       props.setCount(props.count + 1);
-      props.setPerSec(props.const + props.perSec);
-      props.setTotal(props.counter - props.perSec);
+      setFishPerSec(props.const + fishPerSec);
+      setTotal(total - props.price);
       props.setPrice(props.price + props.price * 0.1);
     }
   }
@@ -55,7 +60,7 @@ export default function Card(props){
                   BuyUpgrade()
                 }}
               >
-                <Text style={{color: 'pink', fontSize:30, fontWeight:'bold'}}>
+                <Text style={{ fontFamily:"Futura", color: 'pink', fontSize:30, fontWeight:'bold'}}>
                 Buy
                 </Text>
               </TouchableOpacity>
