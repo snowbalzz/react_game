@@ -8,8 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { counterAtom } from "./props";
-import { fishPerSecAtom } from "./props";
+import { counterAtom, fishPerSecAtom, press } from "./props";
 
 
 export default function Card(props){
@@ -22,10 +21,10 @@ export default function Card(props){
       props.setCount(props.count + 1);
       setFishPerSec(props.const + fishPerSec);
       setTotal(total - props.price);
-      props.setPrice(props.price + props.price * 0.1);
+      props.setPrice(props.price + props.price * 0.1);   
     }
   }
-  
+
     return(
       <View style={styles.mainCardView}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -57,7 +56,7 @@ export default function Card(props){
                 style={{ color: "green" }}
                 disabled={false}
                 onPress={() => {
-                  BuyUpgrade()
+                  BuyUpgrade();
                 }}
               >
                 <Text style={{ fontFamily:"Futura", color: 'pink', fontSize:30, fontWeight:'bold'}}>

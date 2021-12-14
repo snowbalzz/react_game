@@ -1,7 +1,8 @@
-import { atom } from 'jotai'
+import { atom, useAtom } from 'jotai'
 
 export const counterAtom = atom(0);
 export const fishPerSecAtom = atom(0);
+export const press = atom(100);
 
 export const sets = atom({
     default: require('../img/Fish_Default.png'),

@@ -4,12 +4,12 @@ import Modal from "react-native-modal";
 import AwesomeButton from "react-native-really-awesome-button";
 import Card from "./Card";
 import { useAtom } from "jotai";
-import { counterAtom, fishPerSecAtom, sets } from "./props";
+import { counterAtom, fishPerSecAtom, sets, press} from "./props";
 
 export default function MainFarm() {
   //Main Counter
   const [counter, setCounter] = useAtom(counterAtom);
-  const [clicks, setClicks] = useState(1);
+  const [clicks, setClicks] = useAtom(press);
   const [fishPerSec, setFishPerSec] = useAtom(fishPerSecAtom);
 
   useEffect(() => {
@@ -51,63 +51,51 @@ export default function MainFarm() {
   const [isModalVisible, setModalVisible] = useState(false);
 
   const [state, setState] = useAtom(sets);
-  const [current, setCurrent] = useState(state.default);
+  const [image, setImage] = useState(state.default);
   
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
+  //Used to select correct image
   let upgrades = [
     {
       image: state.feeder,
       count: FeederCount,
       passed: false,
-      unlocked: false,
-      required: 10,
     }, 
     {
       image: state.fisherman,
       count: FisherManCount,
       passed: false,
-      unlocked: false,
-      required: 300,
     }, 
     {
       image: state.fishfarm,
       count: FishFarmCount,
       passed: false,
-      unlocked: false,
-      required: 1000,
     }, 
     {
       image: state.incubator,
       count: IncubatorCount,
       passed: false,
-      unlocked: false,
-      required: 1200,
     }, 
     {
       image: state.factory,
       count: FishFactoryCount,
       passed: false,
-      unlocked: false,
-      required: 10000,
     }, 
   ];
 
   const checks = () => {
     upgrades.forEach(element => {
         imageChange(element);
-        if(element.required < counter && !element.unlocked) {
-          console.log('Unlocked!');
-        }
     });
   };
 
   function imageChange(element) {
     if (!element.passed) {
       if (element.count > 0) {
-        setCurrent(element.image);
+        setImage(element.image);
         element.passed = true;
       }
     }
@@ -173,6 +161,9 @@ export default function MainFarm() {
         <Text style={styles.white}>
           {Math.round((fishPerSec + Number.EPSILON) * 100) / 100} f/s
         </Text>
+        <Text>
+          {clicks}
+        </Text>
       </View>
       
       <View
@@ -228,7 +219,7 @@ export default function MainFarm() {
           setCounter((old) => old + clicks);
         }}
       >
-        <Image style={{ height: 250, width: 350 }} source={current} />
+        <Image style={{ height: 250, width: 350 }} source={image} />
       </TouchableOpacity>
       <View style={styles.Upgrades}>
         <AwesomeButton
@@ -366,7 +357,6 @@ const styles = StyleSheet.create({
     height: "10%",
     width: "50%",
     borderRadius: 15,
-
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
@@ -380,7 +370,6 @@ const styles = StyleSheet.create({
     height: "10%",
     width: "100%",
     borderRadius: 15,
-
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
