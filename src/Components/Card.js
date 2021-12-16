@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { counterAtom, fishPerSecAtom, press } from "./props";
+import { counterAtom, fishPerSecAtom, press } from "../Store/props";
 
 
 export default function Card(props){
@@ -21,7 +21,7 @@ export default function Card(props){
       props.setCount(props.count + 1);
       setFishPerSec(props.const + fishPerSec);
       setTotal(total - props.price);
-      props.setPrice(props.price + props.price * 0.1);   
+      props.setPrice(15 * (1.15**(props.count)));   
     }
   }
 
