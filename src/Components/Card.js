@@ -1,14 +1,12 @@
 import { useAtom } from "jotai";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
-  Button,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
-import { counterAtom, fishPerSecAtom, press } from "../Store/props";
+import { counterAtom, fishPerSecAtom } from "../Store/props";
 
 
 export default function Card(props){
@@ -16,12 +14,18 @@ export default function Card(props){
   const [total, setTotal] = useAtom(counterAtom);
   const [fishPerSec, setFishPerSec] = useAtom(fishPerSecAtom);
 
+  const [nameObject, setNameObject] = useAtom(props.obj);
+  const [amount, setAmount] = useAtom(props.count)
+  const [cost, setCost] = useAtom(props.price);
+
+
   function BuyUpgrade() {
-    if (total>= props.price) {
-      props.setCount(props.count + 1);
-      setFishPerSec(props.const + fishPerSec);
-      setTotal(total - props.price);
-      props.setPrice(15 * (1.15**(props.count)));   
+
+    if (total>= cost) {
+      setAmount(amount + 1);
+      setFishPerSec(nameObject.consta + fishPerSec);
+      setTotal(total - cost);
+      setCost(nameObject.basePrice * (1.15**(amount)));   
     }
   }
 
@@ -30,7 +34,7 @@ export default function Card(props){
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View>
               <Text style={{fontSize: 14, color: 'black', fontWeight: 'bold', textTransform: 'capitalize',}}>
-                {props.name}
+                {nameObject.name}
               </Text>
               <View>
                 <Text
@@ -38,14 +42,14 @@ export default function Card(props){
                     color: "gray",
                     fontSize: 12,
                   }}>
-                  {props.count} {props.name} at work
+                  {amount} {nameObject.name} at work
                 </Text>
                 <Text
                   style={{
                     color: "gray",
                     fontSize: 12,
                   }}>
-                  {props.name} price: {Math.floor(props.price)}
+                  {nameObject.name} price: {Math.floor(cost)}
                 </Text>
               </View>
             </View>

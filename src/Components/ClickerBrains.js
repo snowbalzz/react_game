@@ -10,7 +10,7 @@ import {
   sets,
   counterAtom,
   press,
-  fishPerSecAtom
+  fishPerSecAtom,
 } from "../Store/props";
 
 export default function ClickerBrain() {

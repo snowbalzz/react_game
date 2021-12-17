@@ -1,50 +1,28 @@
-import React, { useState} from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Button } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, TouchableOpacity} from "react-native";
 import Modal from "react-native-modal";
 import Card from "./Card";
-import { useAtom } from "jotai";
 
 import {
+  Feeder, 
+  FisherMan, 
+  FishFarm, 
+  Incubator, 
+  FishFactory,
   FeederAmount, 
   FisherManAmount, 
   FishFarmAmount, 
   IncubatorAmount, 
-  FishFactoryAmount} 
+  FishFactoryAmount,
+  FeederPrice, 
+  FisherManPrice, 
+  FishFarmPrice, 
+  IncubatorPrice, 
+  FishFactoryPrice,
+} 
 from '../Store/props'
 
-
-
 export default function UpgradeModal(props) {
-
-  //Feeders
-  const [FeederPrice, setFeederPrice] = useState(15);
-  const [FeederConst, setFeederConst] = useState(0.1);
-
-  const [FeederCount, setFeederCount] = useAtom(FeederAmount);
-
-  //Automatic FisherMan
-  const [FisherManPrice, setFisherManPrice] = useState(100);
-  const [FisherManConst, setFisherManConst] = useState(1);
-
-  const [FisherManCount, setFisherManCount] = useAtom(FisherManAmount);
-
-  //Auto FishFarm
-  const [FishFarmPrice, setFishFarmPrice] = useState(1000);
-  const [FishFarmConst, setFishFarmConst] = useState(10);
-
-  const [FishFarmCount, setFishFarmCount] = useAtom(FishFarmAmount);
-
-  //Auto Fish Incuabtor
-  const [IncubatorPrice, setIncubatorPrice] = useState(12000);
-  const [IncubatorConst, setIncubatorConst] = useState(56);
-
-  const [IncubatorCount, setIncubatorCount] = useAtom(IncubatorAmount);
-
-  //Fish Facory
-  const [FishFactoryPrice, setFishFactoryPrice] = useState(160000);
-  const [FishFactoryConst, setFishFactoryConst] = useState(226);
-
-  const [FishFactoryCount, setFishFactoryCount] = useAtom(FishFactoryAmount);
 
   return (
     <Modal
@@ -66,59 +44,39 @@ export default function UpgradeModal(props) {
         </View>
 
         <Card
-          name={"Auto Feeders"}
-          count={FeederCount}
+          obj={Feeder}
+          count={FeederAmount}
           price={FeederPrice}
-          setCount={setFeederCount}
-          const={FeederConst}
-          setPrice={setFeederPrice}
         />
 
         <Card
-          name={"Fisher Man"}
-          count={FisherManCount}
+          obj={FisherMan}
+          count={FisherManAmount}
           price={FisherManPrice}
-          setCount={setFisherManCount}
-          const={FisherManConst}
-          setPrice={setFisherManPrice}
         />
 
         <Card
-          name={"Fish Farm"}
-          count={FishFarmCount}
+          obj={FishFarm}
+          count={FishFarmAmount}
           price={FishFarmPrice}
-          setCount={setFishFarmCount}
-          const={FishFarmConst}
-          setPrice={setFishFarmPrice}
         />
 
         <Card
-          name={"Incubators"}
-          count={IncubatorCount}
+          obj={Incubator}
+          count={IncubatorAmount}
           price={IncubatorPrice}
-          setCount={setIncubatorCount}
-          const={IncubatorConst}
-          setPrice={setIncubatorPrice}
         />
 
         <Card
-          name={"Fish Factory"}
-          count={FishFactoryCount}
+          obj={FishFactory}
+          count={FishFactoryAmount}
           price={FishFactoryPrice}
-          setCount={setFishFactoryCount}
-          const={FishFactoryConst}
-          setPrice={setFishFactoryPrice}
         />
 
         <View style={styles.QuitButton}>
           <TouchableOpacity style={{}} disabled={false} onPress={props.toggleModal}>
             <Text
-              style={{
-                fontFamily: "Futura",
-                color: "white",
-                fontSize: 25,
-                fontWeight: "bold",
-              }}
+              style={styles.QuitButtonText}
             >
               Close
             </Text>
@@ -149,7 +107,12 @@ const styles = StyleSheet.create({
     zIndex: 99,
     bottom: -35,
   },
-
+  QuitButtonText:{
+    fontFamily: "Futura",
+    color: "white",
+    fontSize: 25,
+    fontWeight: "bold",
+  },
   UpgradeLabel: {
     position: "absolute",
     backgroundColor: "pink",
